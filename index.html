@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Kitty Battle World</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff9ecb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Kitty Battle">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud"><span>❤️ <b id="hp">5</b></span><span>🔫 <b id="ammo">12</b></span><span>⭐ <b id="score">0</b></span><span>🪙 <b id="coins">0</b></span><span>👾 <b id="kills">0</b>/15</span></div>
+<div id="look"></div>
+<div id="stick"><div id="knob"></div></div>
+<div id="btns"><button id="bShoot">💖</button><button id="bJump">⬆️</button><button id="bDodge">💨</button></div>
+<div id="menu" class="ov"><h1>Kitty<br>Battle World</h1><p>🌸 Pink City 🌸</p><button id="start" class="big">Starten</button><p class="s">Beste Punkte: <b id="best">0</b> · Münzen: <b id="coins2">0</b></p><p class="s">Stick = laufen · Wischen rechts = Kamera<br>💖 schießen · ⬆️ springen · 💨 ausweichen<br>Tastatur: WASD, Pfeile, Leertaste, J, Shift, R</p><p id="err" class="s" style="display:none;color:#c00">3D-Bibliothek nicht geladen. Einmal mit Internet öffnen.</p></div>
+<div id="end" class="ov" style="display:none"><h1 id="endT"></h1><p id="endS"></p><button class="big" onclick="location.reload()">Nochmal</button></div>
+<script src="lib/three.min.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js';s.onload=function(){var g=document.createElement('script');g.src='game.js';document.body.appendChild(g)};document.body.appendChild(s);window.__fb=1"></script>
+<script>if(!window.__fb){var g=document.createElement('script');g.src='game.js';document.body.appendChild(g)}
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js'));</script>
+</body></html>
