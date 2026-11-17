@@ -1,17 +1,20 @@
 (()=>{
 const $=id=>document.getElementById(id);
-let save={coins:0,best:0};try{Object.assign(save,JSON.parse(localStorage.getItem('kbw')||'{}'))}catch(e){}
+let save={coins:0,best:0,cat:'princess',owned:['princess'],gfx:'mid'};try{Object.assign(save,JSON.parse(localStorage.getItem('kbw')||'{}'))}catch(e){}
 const store=()=>{try{localStorage.setItem('kbw',JSON.stringify(save))}catch(e){}};
 $('best').textContent=save.best;$('coins').textContent=save.coins;$('coins2').textContent=save.coins;
 if(typeof THREE==='undefined'){$('err').style.display='block';return}
 const R=renderer=new THREE.WebGLRenderer({canvas:$('c'),antialias:true});
-R.setPixelRatio(Math.min(devicePixelRatio,2));R.shadowMap.enabled=true;
+
 const scene=new THREE.Scene();scene.background=new THREE.Color(0xffd9ec);scene.fog=new THREE.Fog(0xffd9ec,35,120);
 const cam=new THREE.PerspectiveCamera(60,1,.1,200);
 const rs=()=>{R.setSize(innerWidth,innerHeight,false);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix()};addEventListener('resize',rs);rs();
 scene.add(new THREE.HemisphereLight(0xfff0f8,0xd9a6ff,.95));
 const sun=new THREE.DirectionalLight(0xffffff,.7);sun.position.set(30,50,20);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);
 Object.assign(sun.shadow.camera,{left:-45,right:45,top:45,bottom:-45});scene.add(sun);scene.add(sun.target);
+const GF={low:[1,0],mid:[1.5,512],high:[2,1024]};
+function applyGfx(){const f=GF[save.gfx]||GF.mid;R.setPixelRatio(Math.min(devicePixelRatio,f[0]));R.shadowMap.enabled=!!f[1];sun.castShadow=!!f[1];if(f[1]){sun.shadow.mapSize.set(f[1],f[1]);if(sun.shadow.map){sun.shadow.map.dispose();sun.shadow.map=null}}scene.traverse(o=>{if(o.material)o.material.needsUpdate=true});rs()}
+applyGfx();
 const mesh=(g,c,x=0,y=0,z=0)=>{const m=new THREE.Mesh(g,new THREE.MeshLambertMaterial({color:c}));m.position.set(x,y,z);m.castShadow=true;return m};
 const G=new THREE.Mesh(new THREE.PlaneGeometry(400,400),new THREE.MeshLambertMaterial({color:0xffb6d9}));G.rotation.x=-Math.PI/2;G.receiveShadow=true;scene.add(G);
 for(const r of [0,Math.PI/2]){const p=new THREE.Mesh(new THREE.PlaneGeometry(10,300),new THREE.MeshLambertMaterial({color:0xd8c4e8}));p.rotation.x=-Math.PI/2;p.rotation.z=r;p.position.y=.03;scene.add(p)}
@@ -25,15 +28,24 @@ for(let i=-3;i<=3;i++)for(let j=-3;j<=3;j++){if(!i||!j)continue;
  t.add(mesh(new THREE.CylinderGeometry(.3,.4,2.5,6),0x9a6b52,0,1.25,0),mesh(new THREE.SphereGeometry(1.8,10,8),0xff9ecb,0,3.5,0));scene.add(t);sway.push(t);
  for(let k=0;k<4;k++){const f=mesh(new THREE.SphereGeometry(.3,6,6),k%2?0xffffff:0xc58bff,tx+2+k*.8,.3,tz-2+k*.5);f.userData.y=f.position.y;scene.add(f);sway.push(f)}}
 for(let i=0;i<10;i++){const c=new THREE.Group();for(let k=0;k<3;k++)c.add(mesh(new THREE.SphereGeometry(3-k*.5,8,6),0xffffff,k*3,0,0));c.position.set(Math.random()*200-100,30+Math.random()*10,Math.random()*200-100);scene.add(c);clouds.push(c)}
-function cat(){const g=new THREE.Group(),W=0xffffff,P=0xff5fa8;
+const CATS=[
+{id:'princess',name:'Princess Kitty',c:0xffffff,a:0xff5fa8,acc:'crown',cost:0,desc:'Die klassische weiße Katze mit rosa Schleife und Krone.'},
+{id:'magic',name:'Magic Kitty',c:0xe6ccff,a:0x9b5de5,acc:'star',cost:50,desc:'Lila Zauberkatze mit Stern.'},
+{id:'ice',name:'Ice Kitty',c:0xcdeeff,a:0x5ec8ff,acc:'horn',cost:100,desc:'Eisblaue Katze mit Kristallhorn.'},
+{id:'shadow',name:'Shadow Kitty',c:0x6b5b8f,a:0xff5fa8,e:0xffe36b,acc:'none',cost:150,desc:'Dunkle Katze mit leuchtenden Augen.'}];
+function cat(d){d=d||CATS[0];const g=new THREE.Group(),W=d.c,P=d.a;
+ if(d.acc==='crown')g.add(mesh(new THREE.ConeGeometry(.3,.35,5),0xffd84a,0,2.55,0));
+ if(d.acc==='star')g.add(mesh(new THREE.OctahedronGeometry(.22),0xffe36b,0,2.7,0));
+ if(d.acc==='horn')g.add(mesh(new THREE.ConeGeometry(.1,.55,6),0x9fe8ff,0,2.7,0));
  g.add(mesh(new THREE.SphereGeometry(.7,12,10),W,0,.8,0));
  const h=mesh(new THREE.SphereGeometry(.65,12,10),W,0,1.8,0);g.add(h);
  for(const s of[-1,1]){g.add(mesh(new THREE.ConeGeometry(.22,.45,4),W,s*.42,2.35,0));
-  g.add(mesh(new THREE.SphereGeometry(.07,6,6),0x442244,s*.25,1.85,.58));
+  g.add(mesh(new THREE.SphereGeometry(.07,6,6),(d.e||0x442244),s*.25,1.85,.58));
   const a=mesh(new THREE.SphereGeometry(.2,6,6),W,s*.5,.2,0);a.name='leg'+s;g.add(a)}
  g.add(mesh(new THREE.SphereGeometry(.14,6,6),P,-.35,2.2,.4),mesh(new THREE.SphereGeometry(.14,6,6),P,-.6,2.15,.35),mesh(new THREE.SphereGeometry(.1,6,6),P,-.47,2.18,.45));
  return g}
-const P={g:cat(),x:0,z:0,y:0,vy:0,hp:5,ammo:12,rel:0,inv:0,dash:0,cd:0,face:0};scene.add(P.g);
+const CAT=()=>CATS.find(c=>c.id===save.cat)||CATS[0];
+const P={g:cat(CAT()),x:0,z:0,y:0,vy:0,hp:5,ammo:12,rel:0,inv:0,dash:0,cd:0,face:0};scene.add(P.g);
 let yaw=0,kills=0,score=0,coins=0,over=false,running=false,t0=0;
 const en=[],bl=[],ik={},st={x:0,y:0};
 const hud=()=>{$('hp').textContent=P.hp;$('ammo').textContent=P.rel>0?'…':P.ammo;$('score').textContent=score;$('coins').textContent=save.coins+coins;$('kills').textContent=kills};
@@ -86,9 +98,24 @@ function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-last)/1000
    if(u.f>0){u.f-=dt;e.position.x+=u.kx*6*dt;e.position.z+=u.kz*6*dt;if(u.f<=0)e.material.emissive.setHex(0)}
    if(d<1.7&&P.inv<=0&&P.y<1){P.hp--;P.inv=1;if(P.hp<=0)end(false)}}
   P.g.visible=P.inv<=0||Math.floor(tm*20)%2;hud()}
+if(!running){yaw=tm*.25;P.g.position.set(P.x,Math.abs(Math.sin(tm*3))*.25,P.z);P.g.rotation.y=Math.sin(tm)*.6}
  const cx=P.x+Math.sin(yaw)*9*.94,cz=P.z+Math.cos(yaw)*9*.94;
  cam.position.set(cx,P.y+3.8,cz);cam.lookAt(P.x,P.y+1.8,P.z);sun.position.set(P.x+30,50,P.z+20);sun.target.position.set(P.x,0,P.z);
  R.render(scene,cam)}
+
+const show=(id,v)=>$(id).style.display=v?'flex':'none';
+const updCoins=()=>{$('coins').textContent=save.coins;$('coins2').textContent=save.coins;$('cc').textContent=save.coins};
+let pr,ps,pc,pm,pi=0,pyaw=0;
+function pl(){requestAnimationFrame(pl);if($('chars').style.display==='none'||!pm)return;pyaw+=.004;pm.rotation.y=pyaw;pm.position.y=Math.sin(performance.now()/400)*.08;const cv=$('pv'),w=cv.clientWidth,h=cv.clientHeight;if(!w)return;if(cv.width!==Math.round(w*2)){pr.setPixelRatio(2);pr.setSize(w,h,false)}pc.aspect=w/h;pc.updateProjectionMatrix();pr.render(ps,pc)}
+function showCat(){const d=CATS[pi];if(pm)ps.remove(pm);pm=cat(d);ps.add(pm);$('cn').textContent=d.name;$('cs').textContent=d.desc;const own=save.owned.includes(d.id),b=$('cb');b.textContent=save.cat===d.id?'✔ Ausgewählt':own?'Auswählen':'Kaufen 🪙'+d.cost;b.disabled=save.cat===d.id||(!own&&save.coins<d.cost);$('cc').textContent=save.coins}
+$('mChar').onclick=()=>{show('menu',0);show('chars',1);if(!pr){pr=new THREE.WebGLRenderer({canvas:$('pv'),antialias:true,alpha:true});ps=new THREE.Scene();ps.add(new THREE.HemisphereLight(0xffffff,0xd9a6ff,1.2));const dl=new THREE.DirectionalLight(0xffffff,.6);dl.position.set(3,5,4);ps.add(dl);pc=new THREE.PerspectiveCamera(40,1,.1,50);pc.position.set(0,1.6,7);pc.lookAt(0,1.4,0);let dx=null;const cv=$('pv');cv.addEventListener('pointerdown',e=>{dx=e.clientX;cv.setPointerCapture(e.pointerId)});cv.addEventListener('pointermove',e=>{if(dx!==null){pyaw+=(e.clientX-dx)*.01;dx=e.clientX}});cv.addEventListener('pointerup',()=>dx=null);requestAnimationFrame(pl)}pi=Math.max(0,CATS.findIndex(c=>c.id===save.cat));showCat()};
+$('cp').onclick=()=>{pi=(pi+CATS.length-1)%CATS.length;showCat()};$('cx').onclick=()=>{pi=(pi+1)%CATS.length;showCat()};
+$('cb').onclick=()=>{const d=CATS[pi];if(!save.owned.includes(d.id)){if(save.coins<d.cost)return;save.coins-=d.cost;save.owned.push(d.id)}save.cat=d.id;store();scene.remove(P.g);P.g=cat(CAT());scene.add(P.g);showCat();updCoins()};
+$('cback').onclick=()=>{show('chars',0);show('menu',1)};
+const markG=()=>{for(const k of['low','mid','high'])$('g-'+k).classList.toggle('on',save.gfx===k)};
+for(const k of['low','mid','high'])$('g-'+k).onclick=()=>{save.gfx=k;store();applyGfx();markG()};
+$('mSet').onclick=()=>{show('menu',0);show('sets',1);markG()};$('sback').onclick=()=>{show('sets',0);show('menu',1)};
+updCoins();
 $('start').onclick=()=>{$('menu').style.display='none';running=true;try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}catch(e){}};
 hud();requestAnimationFrame(loop);
 })();
