@@ -192,8 +192,8 @@ function bul(dx,dz,w){let b;if(w.id==='heart'){b=new THREE.Group();const hg=GC('
  else b=bsp(w.id==='glitter'?.18:.3,w.col);
  b.position.set(P.x+dx,1.6,P.z+dz);b.userData={dx,dz,life:1.3,d:w.d,s:w.s};scene.add(b);bl.push(b)}
 function shoot(){const w=WN();if(P.cd>0||P.rel>0||over)return;if(P.ammo<=0){P.rel=w.rl;return}
- P.ammo--;P.cd=w.cd;let dx=-Math.sin(yaw),dz=-Math.cos(yaw),best=.45;
- for(const e of en){const ex=e.position.x-P.x,ez=e.position.z-P.z,d=Math.hypot(ex,ez);if(d>30)continue;const a=Math.acos(Math.max(-1,Math.min(1,(ex*dx+ez*dz)/d)));if(a<best){best=a;dx=ex/d;dz=ez/d}}
+ P.ammo--;P.cd=w.cd;let dx=-Math.sin(yaw),dz=-Math.cos(yaw),best=1,nd=16,nn=null;
+ for(const e of en){const ex=e.position.x-P.x,ez=e.position.z-P.z,d=Math.hypot(ex,ez);if(d>30)continue;const a=Math.acos(Math.max(-1,Math.min(1,(ex*dx+ez*dz)/d)));if(a<best){best=a;dx=ex/d;dz=ez/d}if(d<nd){nd=d;nn=[ex/d,ez/d]}}if(best===1&&nn){dx=nn[0];dz=nn[1]}
  for(let k=0;k<w.n;k++){const a=w.n>1?(k/(w.n-1)-.5)*w.sp:0,c=Math.cos(a),s=Math.sin(a);bul(dx*c-dz*s,dx*s+dz*c,w)}
  burst(P.x+dx,1.6,P.z+dz,w.col,4,3);snd(900,.08,'square',.04,300);P.face=Math.atan2(dx,dz);if(P.ammo<=0)P.rel=w.rl}
 function special(){if(P.spc>0||over||!running||paused)return;const k=SPECIAL[save.cat]||'nova',px=P.x,pz=P.z;P.spc=[12,9,7,5][UP('cd')];ev('spec');snd(300,.4,'triangle',.07,900);
@@ -220,9 +220,9 @@ lk.addEventListener('pointerdown',e=>{lx=e.clientX;lk.setPointerCapture(e.pointe
 lk.addEventListener('pointermove',e=>{if(lx!==null){yaw-=(e.clientX-lx)*.007;lx=e.clientX}});
 lk.addEventListener('pointerup',()=>lx=null);lk.addEventListener('pointercancel',()=>lx=null);
 function end(win){if(over)return;over=true;snd(win?700:150,.6,'triangle',.08,win?1400:60);P.win=win;if(win&&AR){coins+=AR.bonus;save.done[AR.key]=1;xp(50);if(AR.mode!=='boss'){ev('arena');save.dia++}}ev('coin',coins);save.coins+=coins;save.best=Math.max(save.best,score);store();$('end').style.display='flex';$('endT').textContent=win?'🎉 Sieg!':'💔 Game Over';$('endS').textContent=`Punkte: ${score} · Münzen: +${coins} · Level ${save.lv} · 💎 ${save.dia}`}
-let last=0,tm=0,fa=0,fc=0,paused=false;
+let last=0,tm=0,fa=0,fc=0,paused=false,gst=0;
 function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-last)/1000||0,.05);last=now;tm+=dt;
- fa+=dt;fc++;if(fa>2.5){const fps=fc/fa;fa=0;fc=0;if(running&&!over&&!paused&&tm>8&&fps<35&&save.gfx!=='low'){save.gfx=save.gfx==='high'?'mid':'low';store();applyGfx();gfxExtras();toast('Grafik automatisch reduziert: '+(save.gfx==='mid'?'Mittel':'Niedrig'))}}
+ fa+=dt;fc++;if(fa>2.5){const fps=fc/fa;fa=0;fc=0;if(running&&!over&&!paused&&tm>gst+6&&fps<35&&save.gfx!=='low'){save.gfx=save.gfx==='high'?'mid':'low';store();applyGfx();gfxExtras();toast('Grafik automatisch reduziert: '+(save.gfx==='mid'?'Mittel':'Niedrig'))}}
  for(const t of sway){if(t.userData.y!==undefined)t.position.y=t.userData.y+Math.abs(Math.sin(tm*2+t.position.x))*.15;else t.rotation.z=Math.sin(tm+t.position.x)*.03}
  for(const c of clouds){c.position.x+=dt*2;if(c.position.x>240)c.position.x=-120}
  rv.material.opacity=.72+Math.sin(tm*2)*.1;rv.scale.x=1+Math.sin(tm)*.04;
@@ -321,6 +321,6 @@ $('pres').onclick=()=>setP(false);
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&running&&!over)setP(true)});
 addEventListener('keydown',e=>{if((e.code==='KeyP'||e.code==='Escape')&&running&&!over)setP(!paused)});
 $('snd').textContent='Ton: '+(save.snd?'an':'aus');$('snd').onclick=()=>{save.snd=!save.snd;store();$('snd').textContent='Ton: '+(save.snd?'an':'aus')};
-$('start').onclick=()=>{$('menu').style.display='none';running=true;P.hp=MAXHP();try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();ac.resume()}catch(e){}try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}catch(e){}};
+$('start').onclick=()=>{$('menu').style.display='none';running=true;gst=tm;P.hp=MAXHP();try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();ac.resume()}catch(e){}try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}catch(e){}};
 gfxExtras();hud();requestAnimationFrame(loop);
 })();
