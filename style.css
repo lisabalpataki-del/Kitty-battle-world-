@@ -26,3 +26,6 @@ canvas{position:fixed;inset:0;width:100%;height:100%}
 #boss{position:fixed;top:max(10px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:min(46vw,420px);z-index:5;text-align:center;color:#fff;font-weight:bold;text-shadow:0 2px #7a2d6b}
 #boss div{height:16px;background:#4a2a4a;border-radius:10px;border:2px solid #fff;overflow:hidden}#boss i{display:block;height:100%;width:100%;background:#ff4d9a}
 .m{padding:8px 26px;margin-top:6px}
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:0 10px;margin-top:6px}.mg .m{font-size:17px;padding:8px 14px}
+.lst{display:flex;flex-direction:column;max-width:94vw}.lst .m{font-size:16px;padding:8px 16px}
+.ov>:first-child{margin-top:auto}.ov>:last-child{margin-bottom:auto}
