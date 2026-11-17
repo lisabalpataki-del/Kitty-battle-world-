@@ -50,14 +50,31 @@ for(let i=0;i<6;i++){const s=sp(new THREE.SphereGeometry(.18,6,6),0x8fd3ff,11,1.
 blds.push({x:11,z:11,r:3});
 let zone='';
 const CATS=[
-{id:'princess',name:'Princess Kitty',c:0xffffff,a:0xff5fa8,acc:'crown',cost:0,desc:'Die klassische weiße Katze mit rosa Schleife und Krone.'},
-{id:'magic',name:'Magic Kitty',c:0xe6ccff,a:0x9b5de5,acc:'star',cost:50,desc:'Lila Zauberkatze mit Stern.'},
-{id:'ice',name:'Ice Kitty',c:0xcdeeff,a:0x5ec8ff,acc:'horn',cost:100,desc:'Eisblaue Katze mit Kristallhorn.'},
-{id:'shadow',name:'Shadow Kitty',c:0x6b5b8f,a:0xff5fa8,e:0xffe36b,acc:'none',cost:150,desc:'Dunkle Katze mit leuchtenden Augen.'}];
+{id:'princess',name:'Princess Kitty',c:0xffffff,a:0xff5fa8,o:0xffb6d9,acc:'crown',cost:0,desc:'Weiße Katze mit Krone und rosa Kleid.'},
+{id:'magic',name:'Magic Kitty',c:0xe6ccff,a:0x9b5de5,o:0x7a3fc9,acc:'star',cost:50,desc:'Lila Zauberkatze mit Stern.'},
+{id:'ice',name:'Ice Kitty',c:0xcdeeff,a:0x5ec8ff,o:0x7ad0ff,acc:'horn',cost:100,desc:'Eisblaue Katze mit Kristallhorn.'},
+{id:'fire',name:'Fire Kitty',c:0xffc9a0,a:0xff4d2e,o:0xff7a30,acc:'flame',cost:120,desc:'Orange Katze mit Flammenkopf.'},
+{id:'shadow',name:'Shadow Kitty',c:0x6b5b8f,a:0xff5fa8,e:0xffe36b,o:0x2a2040,acc:'none',cost:150,desc:'Dunkle Katze mit leuchtenden Augen.'},
+{id:'angel',name:'Angel Kitty',c:0xffffff,a:0xffe36b,o:0xfff3c0,acc:'halo wings',cost:150,desc:'Weiße Engelkatze mit Heiligenschein und Flügeln.'},
+{id:'dark',name:'Dark Kitty',c:0x3b2f4f,a:0xb01c5a,e:0xff3d7f,o:0x1a1226,acc:'devil',cost:200,desc:'Schwarze Katze mit kleinen Hörnern.'},
+{id:'star',name:'Star Kitty',c:0xfff3b0,a:0x6b8cff,o:0x4a63d6,acc:'star',cost:250,desc:'Sternenkatze in Blau und Gelb.'},
+{id:'warrior',name:'Pink Warrior',c:0xffc2e0,a:0xff2e7e,o:0xd81b60,acc:'band',cost:300,desc:'Kämpferin mit Stirnband.'},
+{id:'rainbow',name:'Rainbow Kitty',c:0xfff0ff,a:0xff9ecb,o:0xa0e7ff,acc:'rainbow',cost:400,desc:'Bunte Katze mit Regenbogenkugeln.'},
+{id:'crystal',name:'Crystal Kitty',c:0xb8f3ff,a:0x7ae0e0,o:0x4fc3d9,acc:'crystal',cost:500,desc:'Türkise Katze mit Kristall.'},
+{id:'golden',name:'Golden Kitty',c:0xffd84a,a:0xffffff,o:0xe0a800,acc:'crown',cost:700,desc:'Goldene Katze, die seltenste von allen.'}];
 function cat(d){d=d||CATS[0];const g=new THREE.Group(),W=d.c,P=d.a;
- if(d.acc==='crown')g.add(mesh(new THREE.ConeGeometry(.3,.35,5),0xffd84a,0,2.55,0));
- if(d.acc==='star')g.add(mesh(new THREE.OctahedronGeometry(.22),0xffe36b,0,2.7,0));
- if(d.acc==='horn')g.add(mesh(new THREE.ConeGeometry(.1,.55,6),0x9fe8ff,0,2.7,0));
+ const A=d.acc;
+ if(A.includes('crown'))g.add(mesh(new THREE.ConeGeometry(.3,.35,5),0xffd84a,0,2.55,0));
+ if(A.includes('star'))g.add(mesh(new THREE.OctahedronGeometry(.22),0xffe36b,0,2.7,0));
+ if(A.includes('horn'))g.add(mesh(new THREE.ConeGeometry(.1,.55,6),0x9fe8ff,0,2.7,0));
+ if(A.includes('flame')){g.add(mesh(new THREE.ConeGeometry(.2,.6,5),0xff7a30,0,2.65,0),mesh(new THREE.ConeGeometry(.14,.5,5),0xffd84a,.2,2.6,0))}
+ if(A.includes('halo')){const h=mesh(new THREE.TorusGeometry(.35,.05,6,16),0xffd84a,0,2.8,0);h.rotation.x=Math.PI/2;g.add(h)}
+ if(A.includes('wings'))for(const s of[-1,1]){const w=mesh(new THREE.SphereGeometry(.45,8,6),0xffffff,s*.55,1.2,-.55);w.scale.set(.25,1,.6);w.rotation.z=s*.4;g.add(w)}
+ if(A.includes('devil'))for(const s of[-1,1]){const h=mesh(new THREE.ConeGeometry(.08,.35,5),0xb01c5a,s*.2,2.45,.1);h.rotation.z=-s*.3;g.add(h)}
+ if(A.includes('band'))g.add(mesh(new THREE.CylinderGeometry(.67,.67,.14,12),0xff2e7e,0,2.1,0));
+ if(A.includes('rainbow'))[0xff5f5f,0xffe36b,0x6bd6ff].forEach((c,i)=>g.add(mesh(new THREE.SphereGeometry(.13,6,6),c,(i-1)*.25,2.5,0)));
+ if(A.includes('crystal')){const c=mesh(new THREE.OctahedronGeometry(.28),0x7ae0e0,0,2.75,0);c.scale.y=1.6;g.add(c)}
+ if(d.o)g.add(mesh(new THREE.CylinderGeometry(.5,.82,.45,10),d.o,0,.42,0));
  g.add(mesh(new THREE.SphereGeometry(.7,12,10),W,0,.8,0));
  const h=mesh(new THREE.SphereGeometry(.65,12,10),W,0,1.8,0);g.add(h);
  for(const s of[-1,1]){g.add(mesh(new THREE.ConeGeometry(.22,.45,4),W,s*.42,2.35,0));
@@ -69,10 +86,29 @@ const CAT=()=>CATS.find(c=>c.id===save.cat)||CATS[0];
 const P={g:cat(CAT()),x:0,z:0,y:0,vy:0,hp:5,ammo:12,rel:0,inv:0,dash:0,cd:0,face:0};scene.add(P.g);
 let yaw=0,kills=0,score=0,coins=0,over=false,running=false,t0=0;
 const en=[],bl=[],ik={},st={x:0,y:0};
-const hud=()=>{$('hp').textContent=P.hp;$('ammo').textContent=P.rel>0?'…':P.ammo;$('score').textContent=score;$('coins').textContent=save.coins+coins;$('kills').textContent=kills};
-function spawn(){const a=Math.random()*6.28,d=25+Math.random()*10;
- const m=mesh(new THREE.SphereGeometry(.9,12,10),[0xb36bff,0x8ae0ff,0xffe36b][Math.random()*3|0],P.x+Math.sin(a)*d,.9,P.z+Math.cos(a)*d);
- m.userData={hp:3,sp:3+Math.random()*1.5};scene.add(m);en.push(m)}
+const hud=()=>{$('hp').textContent=Math.max(0,P.hp);$('ammo').textContent=P.rel>0?'…':P.ammo;$('score').textContent=score;$('coins').textContent=save.coins+coins;$('kills').textContent=kills};
+const ET=[
+{n:'Schattenkatze',c:0x3b2f4f,hp:2,sp:5.5,r:.8,b:'chase',z:'c',w:3,ear:1},
+{n:'Roboter',c:0x9aa7b8,hp:4,sp:3,r:.9,b:'shoot',z:'c',w:2,fr:2,keep:12,sq:1},
+{n:'Dunkler Hase',c:0x5b3a8a,hp:3,sp:4.5,r:.8,b:'dodge',z:'c',w:2,ear:2},
+{n:'Magier',c:0xb36bff,hp:3,sp:2.5,r:.8,b:'shoot',z:'c',w:1.5,fr:2.6,keep:16,bs:9},
+{n:'Erdbeer-Monster',c:0xff4d6d,hp:3,sp:4,r:.9,b:'chase',z:'f',w:3},
+{n:'Monster',c:0x6fd68a,hp:6,sp:2.8,r:1.2,b:'chase',z:'f',w:1.5},
+{n:'Feuergegner',c:0xff8a3d,hp:4,sp:3.5,r:.9,b:'charge',z:'f',w:2},
+{n:'Eisgegner',c:0x9fdcff,hp:4,sp:2.8,r:.9,b:'shoot',z:'f',w:2,fr:1.8,keep:13,bs:11},
+{n:'Gummi-Hüpfer',c:0xff8ac0,hp:2,sp:5,r:.8,b:'hop',z:'b',w:2},
+{n:'Wächter',c:0x8a8aa8,hp:12,sp:1.8,r:1.6,b:'chase',z:'b',w:.4,dmg:2,sq:1}];
+const ebl=[];
+function mkEn(t){const g=new THREE.Group(),r=t.r;
+ const body=t.sq?mesh(new THREE.BoxGeometry(r*1.8,r*1.8,r*1.8),t.c,0,r,0):mesh(new THREE.SphereGeometry(r,12,10),t.c,0,r,0);g.add(body);
+ for(const s of[-1,1]){g.add(mesh(new THREE.SphereGeometry(r*.17,6,6),0xffffff,s*r*.35,r*1.15,r*.8),mesh(new THREE.SphereGeometry(r*.09,6,6),0x221133,s*r*.35,r*1.15,r*.95));
+  if(t.ear){const e=mesh(new THREE.ConeGeometry(r*.2,r*(t.ear===2?1.2:.5),4),t.c,s*r*.5,r*(t.ear===2?2.1:1.8),0);g.add(e)}}
+ g.userData={hp:t.hp,t,body,r,cd:Math.random()*2,dash:0,f:0};return g}
+function spawn(){const a=Math.random()*6.28,d=25+Math.random()*10,x=Math.max(-185,Math.min(220,P.x+Math.sin(a)*d)),z=Math.max(-185,Math.min(185,P.z+Math.cos(a)*d)),f=x>96;
+ const L=ET.filter(t=>t.z==='b'||t.z===(f?'f':'c')),W=L.reduce((s,t)=>s+t.w,0);let q=Math.random()*W,t=L[0];for(const k of L){q-=k.w;if(q<=0){t=k;break}}
+ const g=mkEn(t);g.position.set(x,0,z);scene.add(g);en.push(g)}
+const hurt=n=>{P.hp-=n;P.inv=1;if(P.hp<=0)end(false)};
+function shootE(e,nx,nz,t){const b=mesh(new THREE.SphereGeometry(.3,8,8),t.c,e.position.x+nx,1.3,e.position.z+nz);b.material.emissive.setHex(t.c);b.userData={dx:nx,dz:nz,s:t.bs||13,life:2.5};scene.add(b);ebl.push(b)}
 function shoot(){if(P.cd>0||P.rel>0||over)return;if(P.ammo<=0){P.rel=1.2;return}
  P.ammo--;P.cd=.22;let dx=-Math.sin(yaw),dz=-Math.cos(yaw),best=.45;
  for(const e of en){const ex=e.position.x-P.x,ez=e.position.z-P.z,d=Math.hypot(ex,ez);if(d>30)continue;const a=Math.acos(Math.max(-1,Math.min(1,(ex*dx+ez*dz)/d)));if(a<best){best=a;dx=ex/d;dz=ez/d}}
@@ -115,14 +151,21 @@ function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-last)/1000
   for(const s of[-1,1]){const l=P.g.getObjectByName('leg'+s);l.position.z=walk*s*.5}
   if(en.length<Math.min(3+(kills/3|0),7))spawn();
   for(let i=bl.length-1;i>=0;i--){const b=bl[i],u=b.userData;b.position.x+=u.dx*40*dt;b.position.z+=u.dz*40*dt;u.life-=dt;let hit=u.life<=0;
-   for(const e of en)if(!hit&&Math.hypot(e.position.x-b.position.x,e.position.z-b.position.z)<1.2){hit=true;e.userData.hp--;e.material.emissive.setHex(0xffffff);e.userData.f=.1;e.userData.kx=u.dx;e.userData.kz=u.dz}
+   for(const e of en)if(!hit&&Math.hypot(e.position.x-b.position.x,e.position.z-b.position.z)<e.userData.r+.5){hit=true;e.userData.hp--;e.userData.body.material.emissive.setHex(0xffffff);e.userData.f=.1;e.userData.kx=u.dx;e.userData.kz=u.dz}
    if(hit){scene.remove(b);bl.splice(i,1)}}
-  for(let i=en.length-1;i>=0;i--){const e=en[i],u=e.userData;
-   if(u.hp<=0){scene.remove(e);en.splice(i,1);kills++;score+=100;coins++;if(kills>=15)end(true);continue}
-   const dx=P.x-e.position.x,dz=P.z-e.position.z,d=Math.hypot(dx,dz)||1;
-   e.position.x+=dx/d*u.sp*dt;e.position.z+=dz/d*u.sp*dt;e.scale.y=1+Math.sin(tm*8+i)*.12;
-   if(u.f>0){u.f-=dt;e.position.x+=u.kx*6*dt;e.position.z+=u.kz*6*dt;if(u.f<=0)e.material.emissive.setHex(0)}
-   if(d<1.7&&P.inv<=0&&P.y<1){P.hp--;P.inv=1;if(P.hp<=0)end(false)}}
+  for(let i=ebl.length-1;i>=0;i--){const b=ebl[i],u=b.userData;b.position.x+=u.dx*u.s*dt;b.position.z+=u.dz*u.s*dt;u.life-=dt;let h=u.life<=0;
+   if(!h&&P.inv<=0&&P.y<2.2&&Math.hypot(b.position.x-P.x,b.position.z-P.z)<1){h=true;hurt(1)}
+   if(h){scene.remove(b);ebl.splice(i,1)}}
+  for(let i=en.length-1;i>=0;i--){const e=en[i],u=e.userData,t=u.t;
+   if(u.hp<=0){scene.remove(e);en.splice(i,1);kills++;score+=50*t.hp;coins+=t.hp>=6?4:1;if(kills>=15)end(true);continue}
+   const dx=P.x-e.position.x,dz=P.z-e.position.z,d=Math.hypot(dx,dz)||1,nx=dx/d,nz=dz/d;u.cd-=dt;let sp=t.sp,mx=nx,mz=nz;
+   if(t.b==='shoot'){if(d<t.keep)mx=-nx,mz=-nz;else if(d<t.keep+4)sp=0;if(u.cd<=0&&d<28){u.cd=t.fr;shootE(e,nx,nz,t)}}
+   else if(t.b==='dodge'){const s=Math.sin(tm*3+i*2);mx=nx-nz*s*.9;mz=nz+nx*s*.9}
+   else if(t.b==='charge'){if(u.cd<=0&&d<20){u.cd=3.5;u.dash=.5}if(u.dash>0){u.dash-=dt;sp=t.sp*3.2}}
+   else if(t.b==='hop'){e.position.y=Math.abs(Math.sin(tm*5+i))*1.6;sp=t.sp*(e.position.y>.3?1:.2)}
+   e.position.x+=mx*sp*dt;e.position.z+=mz*sp*dt;e.rotation.y=Math.atan2(nx,nz);u.body.scale.y=1+Math.sin(tm*8+i)*.1;
+   if(u.f>0){u.f-=dt;e.position.x+=u.kx*6*dt;e.position.z+=u.kz*6*dt;if(u.f<=0)u.body.material.emissive.setHex(0)}
+   if(d<1.2+t.r&&P.inv<=0&&P.y<1.2)hurt(t.dmg||1)}
   P.g.visible=P.inv<=0||Math.floor(tm*20)%2;hud()}
 if(!running){yaw=tm*.25;P.g.position.set(P.x,Math.abs(Math.sin(tm*3))*.25,P.z);P.g.rotation.y=Math.sin(tm)*.6}
  const cx=P.x+Math.sin(yaw)*9*.94,cz=P.z+Math.cos(yaw)*9*.94;
