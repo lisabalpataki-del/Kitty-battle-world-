@@ -172,18 +172,18 @@ function secretRoom(cx,cz){const g=new THREE.Group();g.position.set(cx,0,cz);for
 secretRoom(-40,-145);
 let zone='',ptm=0,pt0=0;
 const CATS=[
-{id:'princess',name:'Princess Kitty',c:0xffffff,a:0xff5fa8,o:0xffb6d9,acc:'crown',cost:0,desc:'Weiße Katze mit Krone und rosa Kleid.'},
-{id:'magic',name:'Magic Kitty',c:0xe6ccff,a:0x9b5de5,o:0x7a3fc9,acc:'star',cost:50,desc:'Lila Zauberkatze mit Stern.'},
-{id:'ice',name:'Ice Kitty',c:0xcdeeff,a:0x5ec8ff,o:0x7ad0ff,acc:'horn',cost:100,desc:'Eisblaue Katze mit Kristallhorn.'},
-{id:'fire',name:'Fire Kitty',c:0xffc9a0,a:0xff4d2e,o:0xff7a30,acc:'flame',cost:120,desc:'Orange Katze mit Flammenkopf.'},
-{id:'shadow',name:'Shadow Kitty',c:0x6b5b8f,a:0xff5fa8,e:0xffe36b,o:0x2a2040,acc:'none',cost:150,desc:'Dunkle Katze mit leuchtenden Augen.'},
-{id:'angel',name:'Angel Kitty',c:0xffffff,a:0xffe36b,o:0xfff3c0,acc:'halo wings',cost:150,desc:'Weiße Engelkatze mit Heiligenschein und Flügeln.'},
-{id:'dark',name:'Dark Kitty',c:0x3b2f4f,a:0xb01c5a,e:0xff3d7f,o:0x1a1226,acc:'devil',cost:200,desc:'Schwarze Katze mit kleinen Hörnern.'},
-{id:'star',name:'Star Kitty',c:0xfff3b0,a:0x6b8cff,o:0x4a63d6,acc:'star',cost:250,desc:'Sternenkatze in Blau und Gelb.'},
-{id:'warrior',name:'Pink Warrior',c:0xffc2e0,a:0xff2e7e,o:0xd81b60,acc:'band',cost:300,desc:'Kämpferin mit Stirnband.'},
-{id:'rainbow',name:'Rainbow Kitty',c:0xfff0ff,a:0xff9ecb,o:0xa0e7ff,acc:'rainbow',cost:400,desc:'Bunte Katze mit Regenbogenkugeln.'},
-{id:'crystal',name:'Crystal Kitty',c:0xb8f3ff,a:0x7ae0e0,o:0x4fc3d9,acc:'crystal',cost:500,desc:'Türkise Katze mit Kristall.'},
-{id:'golden',name:'Golden Kitty',c:0xffd84a,a:0xffffff,o:0xe0a800,acc:'crown',cost:700,desc:'Goldene Katze, die seltenste von allen.'}];
+{id:'princess',sty:{run:'sway',jump:'spin',shoot:'both',win:'spin'},name:'Princess Kitty',c:0xffffff,a:0xff5fa8,o:0xffb6d9,acc:'crown',cost:0,desc:'Weiße Katze mit Krone und rosa Kleid.'},
+{id:'magic',sty:{run:'glide',jump:'spin',shoot:'up',win:'wave'},name:'Magic Kitty',c:0xe6ccff,a:0x9b5de5,o:0x7a3fc9,acc:'star',cost:50,desc:'Lila Zauberkatze mit Stern.'},
+{id:'ice',sty:{run:'glide',jump:'pop',shoot:'one',win:'flip'},name:'Ice Kitty',c:0xcdeeff,a:0x5ec8ff,o:0x7ad0ff,acc:'horn',cost:100,desc:'Eisblaue Katze mit Kristallhorn.'},
+{id:'fire',sty:{run:'zip',jump:'flip',shoot:'one',win:'hop'},name:'Fire Kitty',c:0xffc9a0,a:0xff4d2e,o:0xff7a30,acc:'flame',cost:120,desc:'Orange Katze mit Flammenkopf.'},
+{id:'shadow',sty:{run:'zip',jump:'pop',shoot:'one',win:'flip'},name:'Shadow Kitty',c:0x6b5b8f,a:0xff5fa8,e:0xffe36b,o:0x2a2040,acc:'none',cost:150,desc:'Dunkle Katze mit leuchtenden Augen.'},
+{id:'angel',sty:{run:'glide',jump:'pop',shoot:'up',win:'wave'},name:'Angel Kitty',c:0xffffff,a:0xffe36b,o:0xfff3c0,acc:'halo wings',cost:150,desc:'Weiße Engelkatze mit Heiligenschein und Flügeln.'},
+{id:'dark',sty:{run:'march',jump:'spin',shoot:'both',win:'hop'},name:'Dark Kitty',c:0x3b2f4f,a:0xb01c5a,e:0xff3d7f,o:0x1a1226,acc:'devil',cost:200,desc:'Schwarze Katze mit kleinen Hörnern.'},
+{id:'star',sty:{run:'bounce',jump:'flip',shoot:'up',win:'spin'},name:'Star Kitty',c:0xfff3b0,a:0x6b8cff,o:0x4a63d6,acc:'star',cost:250,desc:'Sternenkatze in Blau und Gelb.'},
+{id:'warrior',sty:{run:'march',jump:'pop',shoot:'one',win:'hop'},name:'Pink Warrior',c:0xffc2e0,a:0xff2e7e,o:0xd81b60,acc:'band',cost:300,desc:'Kämpferin mit Stirnband.'},
+{id:'rainbow',sty:{run:'bounce',jump:'spin',shoot:'both',win:'wave'},name:'Rainbow Kitty',c:0xfff0ff,a:0xff9ecb,o:0xa0e7ff,acc:'rainbow',cost:400,desc:'Bunte Katze mit Regenbogenkugeln.'},
+{id:'crystal',sty:{run:'sway',jump:'pop',shoot:'both',win:'flip'},name:'Crystal Kitty',c:0xb8f3ff,a:0x7ae0e0,o:0x4fc3d9,acc:'crystal',cost:500,desc:'Türkise Katze mit Kristall.'},
+{id:'golden',sty:{run:'bounce',jump:'flip',shoot:'both',win:'wave'},name:'Golden Kitty',c:0xffd84a,a:0xffffff,o:0xe0a800,acc:'crown',cost:700,desc:'Goldene Katze, die seltenste von allen.'}];
 function cat(d){d=d||CATS[0];const g=new THREE.Group(),W=d.c,P=d.a,A=d.acc||'',E=d.e||0x3a2040;
  g.add(cm(gs(.62,14,10),W,0,.8,0));
  const head=new THREE.Group();head.name='head';head.position.y=1.9;g.add(head);
@@ -212,7 +212,7 @@ function cat(d){d=d||CATS[0];const g=new THREE.Group(),W=d.c,P=d.a,A=d.acc||'',E
  if(d.x==='glasses')H(cm(GC('B',()=>new THREE.BoxGeometry(.95,.2,.1)),0x222233,0,.05,.84,0));
  if(d.x==='hat')H(cm(gy(.35,.4,.55),0x2a2040,0,1.15,0),cm(gy(.62,.62,.06,14),0x2a2040,0,.88,0));
  if(d.x==='scarf'){const s=cm(GC('T2',()=>new THREE.TorusGeometry(.55,.12,6,14)),0xff5f5f,0,1.25,0);s.rotation.x=Math.PI/2;g.add(s)}
- return g}
+ g.rotation.order='YXZ';g.userData.sty=d.sty;return g}
 function animCat(g,t,mv,sh){const r=g.userData.rig||(g.userData.rig={head:g.getObjectByName('head'),tail:g.getObjectByName('tail'),eL:g.getObjectByName('ear-1'),eR:g.getObjectByName('ear1'),yL:g.getObjectByName('eye-1'),yR:g.getObjectByName('eye1'),aL:g.getObjectByName('arm-1'),aR:g.getObjectByName('arm1')});
  if(!r.head)return;
  r.head.position.y=1.9+Math.sin(t*(mv?14:2.5))*.03;r.head.rotation.z=Math.sin(t*1.7)*.05;
@@ -221,10 +221,10 @@ function animCat(g,t,mv,sh){const r=g.userData.rig||(g.userData.rig={head:g.getO
  r.eL.rotation.z=.25+f1+w;r.eR.rotation.z=-.25-f2-w;
  r.yL.scale.y=r.yR.scale.y=(t%3.7)<.13?.1:1;
  const sw=mv?Math.sin(t*10)*.8:Math.sin(t*2)*.1;
- if(sh){r.aL.rotation.x=r.aR.rotation.x=-1.4}else{r.aL.rotation.x=sw;r.aR.rotation.x=-sw}
+ if(sh){const s=(g.userData.sty||{}).shoot;if(s==='up'){r.aL.rotation.x=r.aR.rotation.x=-2.7}else if(s==='one'){r.aR.rotation.x=-1.5;r.aL.rotation.x=.4}else{r.aL.rotation.x=r.aR.rotation.x=-1.4}}else{r.aL.rotation.x=sw;r.aR.rotation.x=-sw}
  r.aL.rotation.z=-.25;r.aR.rotation.z=.25}
 const CAT=()=>{const d=CATS.find(c=>c.id===save.cat)||CATS[0],e=save.eq||{};return Object.assign({},d,e.col!=null?{c:e.col}:{},e.out!=null?{o:e.out}:{},{x:e.acc||''})};
-const P={g:cat(CAT()),x:0,z:0,y:0,vy:0,hp:5,ammo:12,rel:0,inv:0,dash:0,cd:0,face:0,spc:0,spd:0};scene.add(P.g);
+const P={g:cat(CAT()),x:0,z:0,y:0,vy:0,hp:5,ammo:12,rel:0,inv:0,dash:0,cd:0,face:0,spc:0,spd:0,jt:0};scene.add(P.g);
 let yaw=0,kills=0,score=0,coins=0,over=false,running=false,t0=0;
 const en=[],bl=[],ik={},st={x:0,y:0};
 const hud=()=>{$('hp').textContent=Math.max(0,P.hp);$('ammo').textContent=P.rel>0?'…':P.ammo;$('score').textContent=score;$('coins').textContent=save.coins+coins;$('kills').textContent=kills;if(AR&&AR.mode==='boss'){const b=en.find(x=>x.userData.t.b==='boss');$('bf').style.width=(b?Math.max(0,b.userData.hp/b.userData.t.hp*100):0)+'%'}$('bSpec').textContent=P.spc>0?Math.ceil(P.spc):SPN[SPECIAL[save.cat]||'nova'][1]};
@@ -383,6 +383,8 @@ function arenaTick(dt){const m=AR.mode;AR.t+=dt;
   if(AR.chp<=0){end(false);return}if(AR.t>=60){end(true);return}
   obj('Kristall '+Math.max(0,Math.ceil(AR.chp))+'/20 · '+Math.ceil(60-AR.t)+' s')}
  else obj('Besiege '+BOSS[AR.bi].n)}
+const RUN={bounce:{f:14,a:.5,b:.3,l:.05,r:0},glide:{f:8,a:.25,b:.05,l:.25,r:0},march:{f:10,a:.6,b:.08,l:0,r:.04},zip:{f:22,a:.4,b:.08,l:.3,r:0},sway:{f:9,a:.4,b:.12,l:.05,r:.14}};
+const RN={bounce:'Hüpfschritt',glide:'Gleiten',march:'Marschieren',zip:'Flitzen',sway:'Wiegeschritt'},JN={flip:'Salto',spin:'Drehsprung',pop:'Funkensprung'},WS={spin:'Pirouette',hop:'Freudensprünge',wave:'Winken',flip:'Rückwärtssalto'};
 const SPECIAL={princess:'heal',magic:'burst',ice:'freeze',fire:'nova',shadow:'shield',angel:'heal',dark:'speed',star:'burst',warrior:'nova',rainbow:'shield',crystal:'freeze',golden:'nova'};
 const SPN={heal:['Herzheilung','💗'],burst:['Sternenregen','🌟'],freeze:['Eiszeit','❄️'],nova:['Nova-Explosion','💥'],shield:['Schutzschild','🛡️'],speed:['Turbo','⚡']};
 const WP=[{id:'laser',name:'Rosa Laser',desc:'schnell',d:1,cd:.22,mag:12,n:1,sp:0,s:40,col:0xff3d9a,cost:0,rl:1.2},
@@ -413,7 +415,7 @@ function swapW(){const o=WP.filter(w=>save.wps.includes(w.id));if(o.length<2){to
 
 const key=(c,v)=>{ik[c]=v;if(v){if(c==='Space')jump();if(c==='ShiftLeft')dodge();if(c==='KeyR'&&P.ammo<WN().mag)P.rel=1.2;if(c==='KeyE')special();if(c==='KeyQ')swapW()}};
 addEventListener('keydown',e=>{key(e.code,1)});addEventListener('keyup',e=>{key(e.code,0)});
-const jump=()=>{if(P.y<=0.01)P.vy=10},dodge=()=>{if(P.dash<=0){P.dash=.25;P.inv=.4}};
+const jump=()=>{if(P.y<=0.01){P.vy=10;P.jt=0;if((P.g.userData.sty||{}).jump==='pop'){burst(P.x,.5,P.z,0xffe36b,10,4);ring(P.x,P.z,0xffe36b,3)}}},dodge=()=>{if(P.dash<=0){P.dash=.25;P.inv=.4}};
 let sh=0;const press=(id,f)=>{const b=$(id);b.addEventListener('pointerdown',e=>{e.preventDefault();f(1)});b.addEventListener('pointerup',()=>f(0));b.addEventListener('pointerleave',()=>f(0))};
 press('bShoot',v=>sh=v);press('bJump',v=>v&&jump());press('bDodge',v=>v&&dodge());press('bSpec',v=>v&&special());press('bPause',v=>v&&running&&!over&&setP(!paused));press('bSwap',v=>v&&swapW());
 const stk=$('stick'),kn=$('knob');let sid=null;
@@ -464,8 +466,11 @@ function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-last)/1000
   for(let i=chests.length-1;i>=0;i--){const c=chests[i];c.rotation.y+=dt;if(Math.hypot(c.position.x-P.x,c.position.z-P.z)<2.4){scene.remove(c);chests.splice(i,1);const rare=c.userData.rare;coins+=rare?20:5;score+=rare?600:250;ev('chest');snd(800,.15,'sine',.06,1400);xp(10);let tx=rare?'💎 Seltene Truhe! +20 🪙 +2 💎':'🎁 Schatztruhe! +5 🪙';if(rare)save.dia+=2;else if(Math.random()<.25){save.dia++;tx+=' +1 💎'}toast(tx)}}
   if(!AR&&Math.hypot(P.x,P.z-360)<6){ptm+=dt;if(!pt0){pt0=1;toast('👑 Thronsaal-Portal! Bleib stehen für den Endkampf')}if(ptm>1.8)enterCastle()}else{ptm=0;pt0=0}
   P.vy-=25*dt;P.y+=P.vy*dt;if(P.y<0){P.y=0;P.vy=0}
-  P.g.position.set(P.x,P.y,P.z);P.g.rotation.y=P.face;P.g.scale.set(1,1+Math.min(Math.abs(P.vy)*.01,.12),1);P.g.scale.multiplyScalar(1+Math.min(Math.max(P.cd,0),.15)*.5);animCat(P.g,tm,ml>.05,P.cd>.1);if(ml>.05&&tm>sk){sk=tm+.12;burst(P.x,.3,P.z,[0xffe36b,0xff9ecb,0xffffff][Math.random()*3|0],2,1.5)}
-  const walk=ml>.05?Math.sin(tm*14)*.5:0;P.g.position.y+=Math.abs(walk)*.15;
+  P.g.position.set(P.x,P.y,P.z);P.g.rotation.y=P.face;
+  const ST=P.g.userData.sty||{},RS=RUN[ST.run]||RUN.bounce,air=P.y>.01;if(air)P.jt+=dt;else P.jt=0;const jr=Math.min(P.jt*7.85,6.283);
+  P.g.rotation.x=air?(ST.jump==='flip'?-jr:0):(ml>.05?RS.l:0);if(air&&ST.jump==='spin')P.g.rotation.y+=jr;P.g.rotation.z=air?0:(ml>.05?Math.sin(tm*RS.f)*RS.r:0);
+  P.g.scale.set(1,1+Math.min(Math.abs(P.vy)*.01,.12),1);P.g.scale.multiplyScalar(1+Math.min(Math.max(P.cd,0),.15)*.5);animCat(P.g,tm,ml>.05,P.cd>.1);if(ml>.05&&tm>sk){sk=tm+.12;burst(P.x,.3,P.z,[0xffe36b,0xff9ecb,0xffffff][Math.random()*3|0],2,1.5)}
+  const walk=ml>.05?Math.sin(tm*RS.f)*RS.a:0;P.g.position.y+=Math.abs(walk)*RS.b;
   for(const s of[-1,1]){const l=P.g.getObjectByName('leg'+s);l.position.z=walk*s*.5}
   if(AR)arenaTick(dt);else if(en.length<Math.min(3+(kills/3|0),7))spawn();
   for(let i=bl.length-1;i>=0;i--){const b=bl[i],u=b.userData;b.position.x+=u.dx*u.s*dt;b.position.z+=u.dz*u.s*dt;u.life-=dt;let hit=u.life<=0;
@@ -500,7 +505,7 @@ function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-last)/1000
   P.g.visible=P.inv<=0||P.inv>1.05||Math.floor(tm*20)%2;hud()}
 if(!running){yaw=tm*.25;P.g.position.set(P.x,Math.abs(Math.sin(tm*3))*.25,P.z);P.g.rotation.y=Math.sin(tm)*.6;animCat(P.g,tm,false,false)}
  const cx=P.x+Math.sin(yaw)*9*.94,cz=P.z+Math.cos(yaw)*9*.94;
- if(over&&P.win){P.g.position.y=Math.abs(Math.sin(tm*6))*1.2;P.g.rotation.y+=dt*6}
+ if(over&&P.win){const w=(P.g.userData.sty||{}).win;P.g.position.y=Math.abs(Math.sin(tm*(w==='hop'?4:6)))*(w==='hop'?2:1.2);if(w==='spin')P.g.rotation.y+=dt*6;else if(w==='flip')P.g.rotation.x=-((tm*5)%6.283);else if(w==='wave'){P.g.rotation.z=Math.sin(tm*4)*.25;const r=P.g.userData.rig;if(r&&r.aR){r.aR.rotation.x=-2.8;r.aR.rotation.z=.5+Math.sin(tm*10)*.5}}}
  cam.position.set(cx,P.y+3.8,cz);if(P.shk>0){P.shk-=dt;cam.position.x+=(Math.random()-.5)*.5;cam.position.y+=(Math.random()-.5)*.5}cam.lookAt(P.x,P.y+1.8,P.z);sun.position.set(P.x+30,50,P.z+20);sun.target.position.set(P.x,0,P.z);
  R.render(scene,cam)}
 
@@ -508,7 +513,7 @@ const show=(id,v)=>$(id).style.display=v?'flex':'none';
 const updCoins=()=>{$('coins').textContent=save.coins;$('coins2').textContent=save.coins;$('cc').textContent=save.coins;$('wc').textContent=save.coins;$('lv').textContent=save.lv;$('dia').textContent=save.dia};
 let pr,ps,pc,pm,pi=0,pyaw=0;
 function pl(){requestAnimationFrame(pl);if($('chars').style.display==='none'||!pm)return;pyaw+=.004;pm.rotation.y=pyaw;pm.position.y=Math.sin(performance.now()/400)*.08;animCat(pm,performance.now()/1000,false,false);const cv=$('pv'),w=cv.clientWidth,h=cv.clientHeight;if(!w)return;if(cv.width!==Math.round(w*2)){pr.setPixelRatio(2);pr.setSize(w,h,false)}pc.aspect=w/h;pc.updateProjectionMatrix();pr.render(ps,pc)}
-function showCat(){const d=CATS[pi];if(pm)ps.remove(pm);pm=cat(d.id===save.cat?CAT():d);ps.add(pm);$('cn').textContent=d.name;$('cs').textContent=d.desc+' Spezial: '+SPN[SPECIAL[d.id]].join(' ');const own=save.owned.includes(d.id),b=$('cb');b.textContent=save.cat===d.id?'✔ Ausgewählt':own?'Auswählen':'Kaufen 🪙'+d.cost;b.disabled=save.cat===d.id||(!own&&save.coins<d.cost);$('cc').textContent=save.coins}
+function showCat(){const d=CATS[pi];if(pm)ps.remove(pm);pm=cat(d.id===save.cat?CAT():d);ps.add(pm);$('cn').textContent=d.name;$('cs').textContent=d.desc+' Spezial: '+SPN[SPECIAL[d.id]].join(' ')+' · Lauf: '+RN[d.sty.run]+' · Sprung: '+JN[d.sty.jump]+' · Sieg: '+WS[d.sty.win];const own=save.owned.includes(d.id),b=$('cb');b.textContent=save.cat===d.id?'✔ Ausgewählt':own?'Auswählen':'Kaufen 🪙'+d.cost;b.disabled=save.cat===d.id||(!own&&save.coins<d.cost);$('cc').textContent=save.coins}
 $('mChar').onclick=()=>{show('menu',0);show('chars',1);if(!pr){pr=new THREE.WebGLRenderer({canvas:$('pv'),antialias:true,alpha:true});ps=new THREE.Scene();ps.add(new THREE.HemisphereLight(0xffffff,0xd9a6ff,1.2));const dl=new THREE.DirectionalLight(0xffffff,.6);dl.position.set(3,5,4);ps.add(dl);pc=new THREE.PerspectiveCamera(40,1,.1,50);pc.position.set(0,1.6,7);pc.lookAt(0,1.4,0);let dx=null;const cv=$('pv');cv.addEventListener('pointerdown',e=>{dx=e.clientX;cv.setPointerCapture(e.pointerId)});cv.addEventListener('pointermove',e=>{if(dx!==null){pyaw+=(e.clientX-dx)*.01;dx=e.clientX}});cv.addEventListener('pointerup',()=>dx=null);requestAnimationFrame(pl)}pi=Math.max(0,CATS.findIndex(c=>c.id===save.cat));showCat()};
 $('cp').onclick=()=>{pi=(pi+CATS.length-1)%CATS.length;showCat()};$('cx').onclick=()=>{pi=(pi+1)%CATS.length;showCat()};
 $('cb').onclick=()=>{const d=CATS[pi];if(!save.owned.includes(d.id)){if(save.coins<d.cost)return;save.coins-=d.cost;save.owned.push(d.id)}save.cat=d.id;store();scene.remove(P.g);P.g=cat(CAT());scene.add(P.g);showCat();updCoins()};
@@ -550,6 +555,7 @@ const WORLDS=[{k:'city',n:'Pink City',x:0,z:0,lv:1},{k:'forest',n:'Strawberry Fo
 function wRender(){const l=$('wlst');l.innerHTML='';hd(l,'Dein Startgebiet (zu Fuß kommst du immer überall hin)');for(const w of WORLDS){const ok=save.lv>=w.lv,on=save.world===w.k;mk(l,w.n+' · '+(ok?(on?'✔ Start hier':'Hierhin'):'🔒 ab Level '+w.lv),on,()=>{if(!ok)return toast('Noch gesperrt: Level '+w.lv);save.world=w.k;P.x=w.x;P.z=w.z;store();wRender()})}}
 panel('mWorld','wsel',wRender,'wsback');
 let rt=0;$('rst').onclick=()=>{if(rt){try{localStorage.removeItem('kbw')}catch(e){}location.reload();return}rt=1;$('rst').textContent='Wirklich löschen? Nochmal tippen';setTimeout(()=>{rt=0;$('rst').textContent='Spielstand löschen'},4000)};
-$('start').onclick=()=>{$('menu').style.display='none';running=true;gst=tm;P.hp=MAXHP();if(!AR){const w=WORLDS.find(q=>q.k===save.world);if(w){P.x=w.x;P.z=w.z}}try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();ac.resume()}catch(e){}try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}catch(e){}};
+$('tok').onclick=()=>{paused=false;show('tut',0);save.tut=1;store()};
+$('start').onclick=()=>{$('menu').style.display='none';running=true;gst=tm;P.hp=MAXHP();if(!save.tut){paused=true;show('tut',1)}if(!AR){const w=WORLDS.find(q=>q.k===save.world);if(w){P.x=w.x;P.z=w.z}}try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();ac.resume()}catch(e){}try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}catch(e){}};
 gfxExtras();hud();requestAnimationFrame(loop);
 })();
